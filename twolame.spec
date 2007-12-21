@@ -15,6 +15,7 @@ BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	dos2unix
 Requires:	%{libname} = %{version}-%{release}
+BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
 TwoLAME is an optimized MPEG Audio Layer 2 (MP2) encoder based on tooLAME by
