@@ -5,7 +5,7 @@
 Summary:	Optimized MPEG Audio Layer 2 (MP2) encoder
 Name:		twolame
 Version:	0.3.12
-Release:	%mkrel 1
+Release:	%mkrel 3
 License:	LGPL
 Group:		System/Libraries
 URL:		http://www.twolame.org/
