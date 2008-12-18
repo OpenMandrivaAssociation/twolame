@@ -1,20 +1,22 @@
-%define	major 0
-%define libname	%mklibname %{name} %{major}
-%define develname %mklibname -d %{name}
+%define	major		0
+%define libname		%mklibname %{name} %{major}
+%define develname	%mklibname -d %{name}
 
 Summary:	Optimized MPEG Audio Layer 2 (MP2) encoder
 Name:		twolame
 Version:	0.3.12
-Release:	%mkrel 4
-License:	LGPL
+Release:	%mkrel 2
+License:	LGPLv2+
 Group:		System/Libraries
 URL:		http://www.twolame.org/
-Source0:	http://dl.sourceforge.net/twolame/%{name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+# configure.ac has spaces in AC_SUBST directives that screw up modern
+# autoconf - AdamW 2008/12
+Patch0:		twolame-0.3.12-subst_space.patch
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	dos2unix
-Requires:	%{libname} = %{version}-%{release}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
@@ -61,22 +63,19 @@ TwoLAME library.
 %prep
 
 %setup -q
-
+%patch0 -p1 -b .space
 sed -i -e 's/-O3//' configure.ac
 
 # strip away annoying ^M
 find -type f | grep -v ".gif" | grep -v ".png" | grep -v ".jpg" | xargs dos2unix -U
 
 %build
-libtoolize --copy --force; aclocal; autoconf; autoheader; automake
-
+autoreconf
 %configure2_5x
-
 %make
 
 %install
 rm -rf %{buildroot}
-
 %makeinstall_std
 
 rm -rf %{buildroot}%{_docdir}/twolame
@@ -94,13 +93,13 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
+%doc AUTHORS ChangeLog README TODO
 %{_bindir}/twolame
 %{_mandir}/man1/twolame.1*
 
 %files -n %{libname}
 %defattr(-,root,root)
-%doc AUTHORS COPYING ChangeLog README TODO
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{major}*
 
 %files -n %{develname}
 %defattr(-,root,root)
@@ -110,5 +109,4 @@ rm -rf %{buildroot}
 %{_libdir}/*.la
 %{_libdir}/*.a
 %{_libdir}/pkgconfig/*
-
 
