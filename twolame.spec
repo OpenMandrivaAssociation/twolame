@@ -70,7 +70,7 @@ sed -i -e 's/-O3//' configure.ac
 find -type f | grep -v ".gif" | grep -v ".png" | grep -v ".jpg" | xargs dos2unix -U
 
 %build
-autoreconf
+autoreconf -fi
 %configure2_5x
 %make
 
