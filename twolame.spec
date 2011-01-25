@@ -4,15 +4,12 @@
 
 Summary:	Optimized MPEG Audio Layer 2 (MP2) encoder
 Name:		twolame
-Version:	0.3.12
-Release:	%mkrel 6
+Version:	0.3.13
+Release:	%mkrel 1
 License:	LGPLv2+
 Group:		System/Libraries
 URL:		http://www.twolame.org/
-Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
-# configure.ac has spaces in AC_SUBST directives that screw up modern
-# autoconf - AdamW 2008/12
-Patch0:		twolame-0.3.12-subst_space.patch
+Source0:	http://downloads.sourceforge.net/project/%name/%name/%version/%{name}-%{version}.tar.gz
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
@@ -63,7 +60,6 @@ TwoLAME library.
 %prep
 
 %setup -q
-%patch0 -p1 -b .space
 sed -i -e 's/-O3//' configure.ac
 
 # strip away annoying ^M
