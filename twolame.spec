@@ -63,7 +63,7 @@ TwoLAME library.
 sed -i -e 's/-O3//' configure.ac
 
 # strip away annoying ^M
-find -type f | grep -v ".gif" | grep -v ".png" | grep -v ".jpg" | xargs dos2unix -U
+find -type f | grep -v ".gif" | grep -v ".png" | grep -v ".jpg" | xargs dos2unix
 
 %build
 autoreconf -fi
