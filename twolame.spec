@@ -1,20 +1,18 @@
-%define	major		0
+%define major		0
 %define libname		%mklibname %{name} %{major}
 %define develname	%mklibname -d %{name}
 
 Summary:	Optimized MPEG Audio Layer 2 (MP2) encoder
 Name:		twolame
 Version:	0.3.13
-Release:	%mkrel 2
+Release:	5
 License:	LGPLv2+
 Group:		System/Libraries
 URL:		http://www.twolame.org/
 Source0:	http://downloads.sourceforge.net/project/%name/%name/%version/%{name}-%{version}.tar.gz
-BuildRequires:	libsndfile-devel >= 1.0.0
+BuildRequires:	pkgconfig(sndfile)
 BuildRequires:	libtool
-BuildRequires:	pkgconfig
 BuildRequires:	dos2unix
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
 TwoLAME is an optimized MPEG Audio Layer 2 (MP2) encoder based on tooLAME by
@@ -39,8 +37,8 @@ TwoLAME MP2 encoding library.
 Summary:	Header files for TwoLAME library
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
-Provides:	%{name}-devel = %{version}
-Provides:	lib%{name}-devel = %{version}
+Provides:	%{name}-devel = %{version}-%{release}
+Provides:	lib%{name}-devel = %{version}-%{release}
 
 %description -n	%{develname}
 TwoLAME is an optimized MPEG Audio Layer 2 (MP2) encoder based on tooLAME by
@@ -67,42 +65,90 @@ find -type f | grep -v ".gif" | grep -v ".png" | grep -v ".jpg" | xargs dos2unix
 
 %build
 autoreconf -fi
-%configure2_5x
+%configure2_5x --disable-static
 %make
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
 
 rm -rf %{buildroot}%{_docdir}/twolame
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root)
 %doc AUTHORS ChangeLog README TODO
 %{_bindir}/twolame
 %{_mandir}/man1/twolame.1*
 
 %files -n %{libname}
-%defattr(-,root,root)
 %{_libdir}/*.so.%{major}*
 
 %files -n %{develname}
-%defattr(-,root,root)
 %doc doc/html/*
 %{_includedir}/*
 %{_libdir}/*.so
-%{_libdir}/*.la
-%{_libdir}/*.a
 %{_libdir}/pkgconfig/*
 
+
+
+%changelog
+* Fri May 06 2011 Oden Eriksson <oeriksson@mandriva.com> 0.3.13-2mdv2011.0
++ Revision: 670736
+- mass rebuild
+
+* Tue Jan 25 2011 Götz Waschk <waschk@mandriva.org> 0.3.13-1
++ Revision: 632513
+- new version
+- fix source URL
+- drop patch
+
+* Fri Dec 03 2010 Oden Eriksson <oeriksson@mandriva.com> 0.3.12-6mdv2011.0
++ Revision: 608047
+- rebuild
+
+* Wed Mar 17 2010 Oden Eriksson <oeriksson@mandriva.com> 0.3.12-5mdv2010.1
++ Revision: 524285
+- rebuilt for 2010.1
+
+* Thu Sep 03 2009 Christophe Fergeau <cfergeau@mandriva.com> 0.3.12-4mdv2010.0
++ Revision: 427454
+- rebuild
+- make sure autoreconf updates libtool files to avoid libtool 1.5/2.2 mismatches
+
+* Sun Jan 11 2009 Götz Waschk <waschk@mandriva.org> 0.3.12-3mdv2009.1
++ Revision: 328310
+- rebuild
+
+* Thu Dec 18 2008 Adam Williamson <awilliamson@mandriva.org> 0.3.12-2mdv2009.1
++ Revision: 315793
+- docs in main not lib package, don't package COPYING
+- protect major in file list
+- add subst_space.patch: fix issues in configure.ac that broke build
+- clean some unnecessary whitespace
+- new license policy
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+    - rebuild
+
+  + Pixel <pixel@mandriva.com>
+    - do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
+
+* Wed Mar 05 2008 Guillaume Bedot <littletux@mandriva.org> 0.3.12-1mdv2008.1
++ Revision: 179947
+- update to new version 0.3.12
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+    - import twolame
+
+
+* Wed Aug 01 2007 Oden Eriksson <oeriksson@mandriva.com> 0.3.10-1mdv2008.0
++ Revision: 57652
+- Import twolame
+
+
+
+* Wed Aug 01 2007 Oden Eriksson <oeriksson@mandriva.com> 0.3.10-1mdv2008.0
+- initial Mandriva package (PLD import)
