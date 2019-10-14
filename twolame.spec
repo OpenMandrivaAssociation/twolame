@@ -4,8 +4,8 @@
 
 Summary:	Optimized MPEG Audio Layer 2 (MP2) encoder
 Name:		twolame
-Version:	0.3.13
-Release:	22
+Version:	0.4.0
+Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
 URL:		http://www.twolame.org/
@@ -74,7 +74,7 @@ autoreconf -fi
 rm -rf %{buildroot}%{_docdir}/twolame
 
 %files
-%doc AUTHORS ChangeLog README TODO
+%doc AUTHORS ChangeLog README
 %{_bindir}/twolame
 %{_mandir}/man1/twolame.1*
 
