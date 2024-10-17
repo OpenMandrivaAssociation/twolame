@@ -8,7 +8,7 @@ Version:	0.4.0
 Release:	2
 License:	LGPLv2+
 Group:		System/Libraries
-URL:		http://www.twolame.org/
+URL:		https://www.twolame.org/
 Source0:	http://downloads.sourceforge.net/project/%name/%name/%version/%{name}-%{version}.tar.gz
 BuildRequires:	pkgconfig(sndfile)
 BuildRequires:	libtool
